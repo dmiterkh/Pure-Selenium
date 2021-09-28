@@ -1,13 +1,17 @@
 package com.solvd.seleniumpure.tests;
 
+import org.testng.Assert;
+import org.testng.asserts.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,12 +26,14 @@ public class FooterTest {
 	private final static Logger LOGGER = LoggerFactory.getLogger(FooterTest.class);
 	
 	WebDriver driver;
+
 	
     @Test()
     public void testA() {
     	System.setProperty("webdriver.chrome.driver", "/Applications/tools/selenium/chromedriver93mac");  
 		driver = new ChromeDriver();
     	driver.get("https://www.onliner.by/");
+    	driver.close();
     }
     
     @Test()
@@ -37,41 +43,38 @@ public class FooterTest {
         
     	System.setProperty("webdriver.chrome.driver", "/Applications/tools/selenium/chromedriver93mac");  
 		driver = new ChromeDriver();
+		//driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
     	driver.get("https://www.onliner.by/");
     	
-		System.out.println("0");
-		System.out.println("1");
         HomePage homePage = new HomePage(driver);
         
-        System.out.println("1.5");
-		WebDriverWait wait = new WebDriverWait(driver, 3);
-		WebElement homeLinkWait = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[contains(text(),'Для бизнеса')]")));
-
         homePage.clickOnOnlinerLogo();
-//        Assert.assertTrue(homePage.isPageOpened(), "Home page is not opened");
+        homePage = new HomePage(driver);
         
-		System.out.println("2");
+        Assert.assertTrue(homePage.isOnlinerLogoClicked(), "Home page is not opened");
+        homePage = new HomePage(driver);
+
         VacancyPage vacancyPage = homePage.openVacancyPage();
+        homePage = new HomePage(driver);
+        Assert.assertTrue(homePage.isVacancyLinkClicked(), "Vacancy page is not opened");
+        vacancyPage = new VacancyPage(driver);
         
-		System.out.println("3");
         homePage = vacancyPage.openHomePage();
-               
-		System.out.println("4");
+
         ContactsPage contactsPage = homePage.openContactsPage();
         
-		System.out.println("5");
+//        Assert.assertTrue(homePage.isContactsLinkClicked(), "Contacts page is not opened");
+//        contactsPage = new ContactsPage(driver);
+
         homePage = contactsPage.openHomePage();
         
-		System.out.println("6");
         vacancyPage = homePage.openVacancyPage();
         
-		System.out.println("7");
         contactsPage = vacancyPage.openContactsPage();
-        
-		System.out.println("8");
+
         vacancyPage = contactsPage.openVacancyPage();
 
-        System.out.println("9");
+    	driver.close();
         
     }    
 
