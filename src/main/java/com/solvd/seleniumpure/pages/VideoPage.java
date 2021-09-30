@@ -102,4 +102,5 @@ public class VideoPage {
 //    	return youtubeVideoLink;	
 //    } 
     
+    WebElement homeLink = wait.until(ExpectedConditions.elementToBeClickable(homeLinkBy));
 }
