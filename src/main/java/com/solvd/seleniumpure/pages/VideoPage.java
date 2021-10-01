@@ -33,49 +33,54 @@ public class VideoPage {
 		
 		WebDriverWait wait = new WebDriverWait(driver, 3);
 		
-		WebElement homeLink = wait.until(ExpectedConditions.elementToBeClickable(homeLinkBy));
+		homeLink = wait.until(ExpectedConditions.elementToBeClickable(homeLinkBy));
 		
-		WebElement youtubeVideoLink = wait.until(ExpectedConditions.elementToBeClickable(youtubeVideoLinkBy));
+		youtubeVideoLink = wait.until(ExpectedConditions.elementToBeClickable(youtubeVideoLinkBy));
 		
 	}
     
     public void showVideoPageOperations() {
     	
-    	WebDriverWait wait = new WebDriverWait(driver, 3);
-    	WebElement youtubeVideoLink = wait.until(ExpectedConditions.elementToBeClickable(youtubeVideoLinkBy));
+    	WebDriverWait wait = new WebDriverWait(driver, 10);
+    	youtubeVideoLink = wait.until(ExpectedConditions.elementToBeClickable(youtubeVideoLinkBy));
+//    	youtubeVideoLink = driver.findElement(youtubeVideoLinkBy);	
     	youtubeVideoLink.click();
-
-    	
-    	driver.switchTo().frame(0);
-    	WebElement element;
-    	
-    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-play-button') and contains(@aria-label,'(k)')]"));
-    	element.click();
-
-    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-play-button') and contains(@aria-label,'(k)')]"));
-    	element.click();
- 
-    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-mute-button') and contains(@aria-label,'(m)')]"));
-    	element.click();
-    	
-    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-mute-button') and contains(@aria-label,'(m)')]"));
-    	element.click();
-
-    	
-    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-fullscreen-button') and contains(@title,'(f)')]"));
-    	element.click();
-    	
-    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-fullscreen-button') and contains(@title,'(f)')]"));
-    	element.click();
-    	
-    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-settings-button')]"));
-    	element.click();
     	
     	String videoPageWindow = driver.getWindowHandle();
-    	element = driver.findElement(By.xpath("//a[contains(@class,'ytp-youtube-button')]"));
-    	WebDriverWait wait = new WebDriverWait(driver, 3);
-        wait.until(ExpectedConditions.elementToBeClickable(element));
-    	element.click();	
+    	driver.switchTo().frame(youtubeVideoLink);
+    	String youtubeFrameWindow = driver.getWindowHandle();
+    	LOGGER.info("0");
+    	
+    	WebElement element; 
+    	element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[contains(@class,'ytp-play-button') and contains(@aria-label,'(k)')]")));	
+    	element.click();    	
+    	LOGGER.info("1");
+
+    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-play-button') and contains(@aria-label,'(k)')]"));
+    	element.click();
+     	LOGGER.info("2");
+    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-mute-button') and contains(@aria-label,'(m)')]"));
+    	element.click();
+    	LOGGER.info("3");
+    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-mute-button') and contains(@aria-label,'(m)')]"));
+    	element.click();
+    	LOGGER.info("4");    	
+    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-fullscreen-button') and contains(@title,'(f)')]"));
+    	element.click();
+    	LOGGER.info("5");
+//    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-fullscreen-button') and contains(@title,'(f)')]"));
+//    	element.click();
+//    	LOGGER.info("6");
+//    	element = driver.findElement(By.xpath("//button[contains(@class,'ytp-settings-button')]"));
+//    	element.click();
+//    	LOGGER.info("7");
+    	
+//    	element = driver.findElement(By.xpath("//a[contains(@class,'ytp-youtube-button')]"));
+//    	wait = new WebDriverWait(driver, 3);
+//      wait.until(ExpectedConditions.elementToBeClickable(element));
+//    	element.click();
+    	LOGGER.info("8");
+    	LOGGER.info("9");
     	driver.switchTo().window(videoPageWindow);
  
     	
@@ -86,10 +91,8 @@ public class VideoPage {
 	}
     
     public HomePage returnToHomePage() {
-    	while (!(getHomePageLink().isDisplayed())){
-  		    driver.navigate().refresh(); 
-  		};
-  		
+    	WebDriverWait wait = new WebDriverWait(driver, 5);
+    	homeLink = wait.until(ExpectedConditions.elementToBeClickable(homeLinkBy));
     	homeLink.click();
     	return new HomePage(driver);
 	}
@@ -102,5 +105,4 @@ public class VideoPage {
 //    	return youtubeVideoLink;	
 //    } 
     
-    WebElement homeLink = wait.until(ExpectedConditions.elementToBeClickable(homeLinkBy));
 }

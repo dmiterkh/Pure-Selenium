@@ -2,6 +2,8 @@ package com.solvd.seleniumpure.pages;
 
 import java.util.List;
 
+//import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,7 +12,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.solvd.seleniumpure.SeleniumWebdriver;
 
 public class HomePage {
 
@@ -24,11 +25,21 @@ public class HomePage {
 	
     private WebElement vacanciesLink;
     
-    private WebElement youtubeVideoLink;
+    //private WebElement youtubeVideoLink;
     
+    private List<WebElement> videoPageLinkList;
+
+//    private By videoPageLinkBy = 
     private WebElement videoPageLink;
     
+    
 	public HomePage(WebDriver driver) {
+		this.driver = driver;
+		initElements();
+		initVideoElements();
+	}
+	
+	public HomePage(WebDriver driver, String stringArg) {
 		this.driver = driver;
 		initElements();
 	}
@@ -42,10 +53,15 @@ public class HomePage {
 	    contactsLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='https://people.onliner.by/contacts']")));
 		
 	    vacanciesLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='https://blog.onliner.by/vacancy']")));
+	
+	}
 
-	    videoPageLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//i[@class='b-icon-3']//parent::span[@class='complementary-item video']//parent::span[@class='complementary-group']//parent::div//parent::figure//a")));
+	private void initVideoElements() {
+		
+		WebDriverWait wait = new WebDriverWait(driver, 10);
+	    videoPageLink = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//i[@class='b-icon-3']//parent::span[@class='complementary-item video']//parent::span[@class='complementary-group']//parent::div//parent::figure//a")));		
+	    videoPageLinkList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//i[@class='b-icon-3']//parent::span[@class='complementary-item video']//parent::span[@class='complementary-group']//parent::div//parent::figure//a")));		
 
-	   
 	}
 	
 	public VacancyPage openVacancyPage() {
@@ -106,24 +122,24 @@ public class HomePage {
 	        return new VideoPage(driver);
 	    }
 	    
-	    public VideoPage openVideoPageUsualFor() {
-	    	if (videoPageLink.isDisplayed()) {
-	    		int k=0;
-		    	if (getVideoPageLink() != null) {
-					int j = 1;
-					for (int i=0; i < j; i++) {
-				  		while(k < 1) {
-
-				  			if(openVideoPage(getVideoPageLink()).) {
-				  				k++;
-				  			} 
-				  		}
-					}
-			    	return new VideoPage(driver);
-		    	}
-	    	} else {
-	    		LOGGER.info("Required Element is not found on the Home Page");
-	    	}	
-	    	return new VideoPage(driver);	    	
-	    }
+//	    public VideoPage openVideoPageUsualFor() {
+//	    	if (videoPageLink.isDisplayed()) {
+//	    		int k=0;
+//		    	if (getVideoPageLink() != null) {
+//					int j = 1;
+//					for (int i=0; i < j; i++) {
+//				  		while(k < 1) {
+//
+//				  			if(openVideoPage(getVideoPageLink())) {
+//				  				k++;
+//				  			} 
+//				  		}
+//					}
+//			    	return new VideoPage(driver);
+//		    	}
+//	    	} else {
+//	    		LOGGER.info("Required Element is not found on the Home Page");
+//	    	}	
+//	    	return new VideoPage(driver);	    	
+//	    }
 }
