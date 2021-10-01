@@ -6,8 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -49,22 +47,21 @@ public class FooterTest {
         HomePage homePage = new HomePage(driver);
         
         homePage.clickOnOnlinerLogo();
-        homePage = new HomePage(driver);
-        
+        homePage = new HomePage(driver);        
         Assert.assertTrue(homePage.isOnlinerLogoClicked(), "Home page is not opened");
         homePage = new HomePage(driver);
 
         VacancyPage vacancyPage = homePage.openVacancyPage();
-        homePage = new HomePage(driver);
+        homePage = new HomePage(driver, "string");
         Assert.assertTrue(homePage.isVacancyLinkClicked(), "Vacancy page is not opened");
         vacancyPage = new VacancyPage(driver);
         
         homePage = vacancyPage.openHomePage();
 
         ContactsPage contactsPage = homePage.openContactsPage();
-        
-//        Assert.assertTrue(homePage.isContactsLinkClicked(), "Contacts page is not opened");
-//        contactsPage = new ContactsPage(driver);
+        homePage = new HomePage(driver, "string");
+        Assert.assertTrue(homePage.isContactsLinkClicked(), "Contacts page is not opened");
+        contactsPage = new ContactsPage(driver);
 
         homePage = contactsPage.openHomePage();
         

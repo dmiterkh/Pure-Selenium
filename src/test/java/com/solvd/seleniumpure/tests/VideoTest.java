@@ -5,17 +5,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
-import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.BeforeTest;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.AfterSuite;
+
 
 
 import org.testng.annotations.Test;
+
+import com.solvd.seleniumpure.pages.HomePage;
 
 import com.solvd.seleniumpure.pages.HomePage;
 import com.solvd.seleniumpure.pages.VideoPage;
@@ -41,18 +36,17 @@ public class VideoTest {
 		driver = new ChromeDriver();
     	driver.get("https://www.onliner.by/");
     	
-        HomePage homePage = new HomePage(driver);
-        
-        homePage.clickOnOnlinerLogo();
-        homePage = new HomePage(driver);
+    	HomePage homePage = new HomePage(driver);
+    	homePage.clickOnOnlinerLogo();
+    	homePage = new HomePage(driver);
         // Open Video page 
-        
     
 		VideoPage videoPage = homePage.openVideoPage();
-		videoPage.showVideoPageOperations();
+    	videoPage = new VideoPage(driver);
+//		videoPage.showVideoPageOperations();
 		videoPage.returnToHomePage();
-
-        
+		
+        driver.close();
     }
 
 }
