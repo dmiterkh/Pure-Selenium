@@ -12,6 +12,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.solvd.seleniumpure.components.*;
 
 public class HomePage {
 
@@ -24,13 +25,12 @@ public class HomePage {
     private WebElement contactsLink;
 	
     private WebElement vacanciesLink;
-    
-    //private WebElement youtubeVideoLink;
-    
+        
     private List<WebElement> videoPageLinkList;
 
-//    private By videoPageLinkBy = 
     private WebElement videoPageLink;
+    
+    private WebElement topHeaderBarLink;
     
     
 	public HomePage(WebDriver driver) {
@@ -46,19 +46,21 @@ public class HomePage {
 	
 	private void initElements() {
 		
-		WebDriverWait wait = new WebDriverWait(driver, 3);
+		WebDriverWait wait = new WebDriverWait(driver, 60);
 		
 		homeLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@class='onliner_logo']/..")));
 
 	    contactsLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='https://people.onliner.by/contacts']")));
 		
 	    vacanciesLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='https://blog.onliner.by/vacancy']")));
-	
+	    
+	    topHeaderBarLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//header[@class='g-top']")));
+		
 	}
 
 	private void initVideoElements() {
 		
-		WebDriverWait wait = new WebDriverWait(driver, 10);
+		WebDriverWait wait = new WebDriverWait(driver, 60);
 	    videoPageLink = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//i[@class='b-icon-3']//parent::span[@class='complementary-item video']//parent::span[@class='complementary-group']//parent::div//parent::figure//a")));		
 	    videoPageLinkList = wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.xpath("//i[@class='b-icon-3']//parent::span[@class='complementary-item video']//parent::span[@class='complementary-group']//parent::div//parent::figure//a")));		
 
@@ -75,6 +77,9 @@ public class HomePage {
 	}
 	
 	public void clickOnOnlinerLogo() {
+		WebDriverWait wait = new WebDriverWait(driver, 60);
+		homeLink = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//img[@class='onliner_logo']/..")));
+
 		homeLink.click();
 	}
 	
@@ -122,6 +127,15 @@ public class HomePage {
 	        return new VideoPage(driver);
 	    }
 	    
+//	    public List<ExtendedWebElement> getVideoPageListLink() {
+//	        return videoPageListLink;
+//	    }
+//	    
+//	    public VideoPage openVideoPage(ExtendedWebElement videoPageLinkArg) {
+//	        videoPageLinkArg.click();
+//	        return new VideoPage(driver);
+//	    }
+//	    
 //	    public VideoPage openVideoPageUsualFor() {
 //	    	if (videoPageLink.isDisplayed()) {
 //	    		int k=0;
@@ -142,4 +156,34 @@ public class HomePage {
 //	    	}	
 //	    	return new VideoPage(driver);	    	
 //	    }
+	   
+	    
+	    public TopHeaderBar getTopHeaderBar() {
+	        return topHeaderBarLink;
+	    }
+	    
+	    public LoginPage openLoginPage() {
+	        getTopHeaderBar().getAuthLink().click();
+	        return new LoginPage(driver);
+	    }
+	    
+	    public CatalogPage openCatalogPage() {
+	    	getTopHeaderBar().getCatalogPageLink().click();
+	        return new CatalogPage(driver);
+	    }
+	    
+	    public AuthorizedPage openAuthorizedPage(String loginArg, String passwordArg) {
+	    	getTopHeaderBar().getAuthLink().click();
+	        return new AuthorizedPage(driver);
+	    }
+	    
+	    public LoginPage openNotAuthorizedLoginPage(String loginArg, String passwordArg) {
+	    	return getTopHeaderBar().clickOnAuthLink().getNotAuthorizedLoginPage(loginArg, passwordArg);
+	    }
+	    
+	    public AuthorizedPage openAuthorizedLoginPage(String loginArg, String passwordArg) {
+	    	return getTopHeaderBar().clickOnAuthLink().getAuthorizedPage(loginArg, passwordArg);
+	    }
+
+	}
 }
